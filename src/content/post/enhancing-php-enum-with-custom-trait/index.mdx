@@ -78,18 +78,18 @@ enum OrderStatus: string
 ```
 
 ## Practical Usage Examples
-### 1. Calling an Enum Case Like a Function
+### Calling an Enum Case Like a Function
 ```php
 $status = OrderStatus::PENDING;
 echo $status(); // Outputs: 'pending'
 ```
 
-### 2. Getting Enum Values Dynamically
+### Getting Enum Values Dynamically
 ```php
 echo OrderStatus::PENDING();  // Outputs: 'pending'
 echo OrderStatus::COMPLETED(); // Outputs: 'completed'
 ```
-### 3. Retrieving Enum Attributes
+### Retrieving Enum Attributes
 ```php
 print_r(OrderStatus::CANCELED->attributes());
 ```
