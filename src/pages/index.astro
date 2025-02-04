@@ -4,7 +4,6 @@ import PageLayout from "@/layouts/Base.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import SocialList from "@/components/SocialList.astro";
 import { getAllPosts, sortMDByDate } from "@/data/post";
-import meImg from "@/assets/me.png";
 
 const MAX_POSTS = 10;
 const allPosts = await getAllPosts();
@@ -13,22 +12,12 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 
 <PageLayout meta={{ title: "Home" }}>
 	<section class="flex flex-col items-center md:flex-row-reverse">
-		<div class="mb-10 flex-shrink-0 md:ml-6">
-			<div class="h-[200px] w-[200px]">
-				<Image
-					class="h-full w-full rounded-3xl object-cover"
-					src={meImg}
-					alt="It's me"
-					loading="eager"
-				/>
-			</div>
-		</div>
 		<div class="flex-1">
 			<h1 class="title mb-4">Halo ✋</h1>
 			<p class="mb-4 leading-8">
 				Saya Rizkal Lamaau. Saya seorang Generalis yang bekerja dengan Bahasa Pemrograman PHP &
-				Javascript dengan Framework Populer seperti Laravel dan NodeJS untuk Backend dan React, Vue
-				dan Tailwind untuk Frontend.
+				Javascript dengan Framework Populer seperti Laravel dan NodeJS untuk Backend. React, Vue dan
+				Tailwind untuk Frontend.
 			</p>
 			<SocialList />
 		</div>

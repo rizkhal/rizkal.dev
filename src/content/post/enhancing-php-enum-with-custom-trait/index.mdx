@@ -1,0 +1,105 @@
+---
+title: "Enhancing PHP Enums with a Custom Trait"
+publishDate: "01 Feb 2025"
+description: "PHP 8.1 introduced Enums, providing a structured way to define a fixed set of values"
+tags: ["php", "laravel"]
+---
+
+PHP 8.1 introduced Enums, providing a structured way to define a fixed set of values. However, there are times when we need additional functionality, such as dynamically retrieving enum values, making enum cases callable, or getting structured attributes. This is where a trait can be useful.
+
+## The Problem with Basic Enums
+Consider this basic OrderStatus enum:
+```php
+enum OrderStatus: string
+{
+    case PENDING = 'pending';
+    case COMPLETED = 'completed';
+    case CANCELED = 'canceled';
+}
+```
+To access a case value, we typically write:
+```php
+echo OrderStatus::PENDING->value; // Outputs: 'pending'
+```
+
+But what if we want to:
+- ✅ Call an enum case like a function?
+- ✅ Get an enum case value dynamically using a static method?
+- ✅ Retrieve both name and value easily?
+
+This is where a trait comes in handy.
+
+## Create InvokableCases Trait
+Let's define a InvokableCases trait that adds these features:
+
+```php
+namespace App\Constants\Traits;
+
+trait InvokableCases
+{
+    public function __invoke()
+    {
+        return $this->value;
+    }
+
+    public static function __callStatic(mixed $name, mixed $arguments): mixed
+    {
+        return collect(self::cases())->firstWhere('name', $name)->value;
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => $this->name,
+            'value' => $this->value,
+        ];
+    }
+}
+```
+
+### What This Trait Does?
+
+1.  `__invoke()` Makes an enum case callable, returning its value when invoked.
+2.  `__callStatic()` Allows retrieving an enum value dynamically using a static method call.
+3.  `attributes()` Returns an array with the enum’s name and value.
+
+## Using the Trait in an Enum
+Now, let's apply this trait to our OrderStatus enum:
+
+```php
+enum OrderStatus: string
+{
+    use InvokableCases;
+
+    case PENDING = 'pending';
+    case COMPLETED = 'completed';
+    case CANCELED = 'canceled';
+}
+```
+
+## Practical Usage Examples
+### 1. Calling an Enum Case Like a Function
+```php
+$status = OrderStatus::PENDING;
+echo $status(); // Outputs: 'pending'
+```
+
+### 2. Getting Enum Values Dynamically
+```php
+echo OrderStatus::PENDING();  // Outputs: 'pending'
+echo OrderStatus::COMPLETED(); // Outputs: 'completed'
+```
+### 3. Retrieving Enum Attributes
+```php
+print_r(OrderStatus::CANCELED->attributes());
+```
+Output:
+```php
+[
+    'name' => 'CANCELED',
+    'value' => 'canceled'
+]
+```
+
+## Conclusion
+By using the InvokableCases trait, we have enhanced PHP Enums to be callable, dynamically accessible, and provide structured attributes. This makes Enums much more flexible and easier to use in real-world applications. 🚀

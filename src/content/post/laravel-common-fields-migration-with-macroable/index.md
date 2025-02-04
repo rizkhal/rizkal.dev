@@ -3,7 +3,7 @@ title: "Laravel common fields migration with macroable"
 description: "Laravel have a lot of magic, using macroable make everything shorten"
 publishDate: "18 Sep 2020"
 tags: ["php", "laravel"]
-draft: true
+draft: false
 ---
 
 When we have same column on many table, we need to rewrite the column type and name on each table, this not efficient when you are a "programmer".
