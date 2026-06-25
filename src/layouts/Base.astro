@@ -21,14 +21,34 @@ const {
 		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
 	</head>
 	<body
-		class="mx-auto flex min-h-screen max-w-3xl flex-col bg-bgColor px-4 pt-8 font-mono text-sm font-normal text-textColor antialiased sm:px-8"
+		class="mx-auto min-h-[100dvh] bg-bgColor font-sans text-textColor antialiased pb-8"
 	>
 		<ThemeProvider />
 		<SkipLink />
-		<Header />
-		<main id="main">
+
+		{/* Fixed noise overlay */}
+		<div
+			class="pointer-events-none fixed inset-0 z-50 opacity-[0.025]"
+			style="background-image: url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;)"
+			aria-hidden="true"
+		></div>
+
+		{/* Floating nav wrapper */}
+		<div class="sticky top-4 z-40 mx-auto w-full max-w-4xl px-4 sm:px-8">
+			<div class="glass-strong rounded-2xl">
+				<Header />
+			</div>
+		</div>
+
+		<main id="main" class="mx-auto w-full max-w-4xl px-4 pb-16 pt-20 sm:px-8">
 			<slot />
 		</main>
+
 		<Footer />
+
+		<script>
+			import { initScrollReveal } from "@/utils/scrollReveal";
+			initScrollReveal();
+		</script>
 	</body>
 </html>

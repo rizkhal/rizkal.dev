@@ -6,6 +6,8 @@ import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 import astroExpressiveCode from "astro-expressive-code";
 
+import { unified } from "@astrojs/markdown-remark";
+
 // Remark plugins
 import remarkDirective from "remark-directive"; /* Handle ::: directives as nodes */
 import remarkUnwrapImages from "remark-unwrap-images";
@@ -55,21 +57,23 @@ export default defineConfig({
 		mdx(),
 	],
 	markdown: {
-		rehypePlugins: [
-			[
-				rehypeExternalLinks,
-				{
-					rel: ["nofollow, noreferrer"],
-					target: "_blank",
-				},
+		processor: unified({
+			remarkPlugins: [remarkUnwrapImages, remarkReadingTime, remarkDirective, remarkAdmonitions],
+			rehypePlugins: [
+				[
+					rehypeExternalLinks,
+					{
+						rel: ["nofollow, noreferrer"],
+						target: "_blank",
+					},
+				],
 			],
-		],
-		remarkPlugins: [remarkUnwrapImages, remarkReadingTime, remarkDirective, remarkAdmonitions],
-		remarkRehype: {
-			footnoteLabelProperties: {
-				className: [""],
+			remarkRehype: {
+				footnoteLabelProperties: {
+					className: [""],
+				},
 			},
-		},
+		}),
 	},
 	// https://docs.astro.build/en/guides/prefetch/
 	prefetch: true,
@@ -85,7 +89,7 @@ export default defineConfig({
 function rawFonts(ext: string[]) {
 	return {
 		name: "vite-plugin-raw-fonts",
-		transform(_, id) {
+		transform(_: string, id: string) {
 			if (ext.some((e) => id.endsWith(e))) {
 				const buffer = fs.readFileSync(id);
 				return {
@@ -93,6 +97,7 @@ function rawFonts(ext: string[]) {
 					map: null,
 				};
 			}
+			return undefined;
 		},
 	};
 }

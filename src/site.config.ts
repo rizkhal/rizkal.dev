@@ -20,8 +20,8 @@ export const siteConfig: SiteConfig = {
 			year: "numeric",
 		},
 	},
-	// Include view-transitions: https://docs.astro.build/en/guides/view-transitions/
-	includeViewTransitions: false,
+	// Sort posts by updated date instead of publish date
+	sortPostsByUpdatedDate: false,
 	webmentions: {
 		link: "https://webmention.io/rizkal.lamaau.space/webmention",
 	},

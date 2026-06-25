@@ -2,26 +2,180 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Geist Font ─── */
+@font-face {
+	font-family: "Geist";
+	src: url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-regular.woff2")
+		format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Geist";
+	src: url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-medium.woff2") format("woff2");
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Geist";
+	src: url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-semibold.woff2")
+		format("woff2");
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Geist";
+	src: url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Geist Mono";
+	src: url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono-regular.woff2")
+		format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Geist Mono";
+	src: url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono-medium.woff2")
+		format("woff2");
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Geist Mono";
+	src: url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono-semibold.woff2")
+		format("woff2");
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Geist Mono";
+	src: url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono-bold.woff2")
+		format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
 @layer base {
 	:root,
 	:root[data-theme="light"] {
 		color-scheme: light;
-		/* https://tailwindcss.com/docs/customizing-colors#using-css-variables */
 		--theme-bg: 0deg 0% 98%;
-		--theme-link: 172deg 18% 41%;
-		--theme-text: 203deg 11% 15%;
-		--theme-accent: 351deg 66% 48%;
+		--theme-surface: 0deg 0% 100%;
+		--theme-border: 0deg 0% 88%;
+		--theme-link: 160deg 84% 39%;
+		--theme-text: 0deg 0% 13%;
+		--theme-text-secondary: 0deg 0% 45%;
+		--theme-accent: 160deg 84% 39%;
 		--theme-accent-2: 0deg 0% 7%;
-		--theme-quote: 351deg 66% 48%;
+		--theme-quote: 160deg 84% 39%;
+		--theme-muted: 0deg 0% 94%;
 	}
 
 	:root[data-theme="dark"] {
 		color-scheme: dark;
-		--theme-bg: 210deg 6% 12%;
-		--theme-link: 330deg 49% 67%;
-		--theme-text: 220deg 3% 79%;
-		--theme-accent: 159deg 64% 45%;
+		--theme-bg: 220deg 8% 8%;
+		--theme-surface: 220deg 8% 11%;
+		--theme-border: 220deg 6% 18%;
+		--theme-link: 160deg 64% 46%;
+		--theme-text: 220deg 4% 82%;
+		--theme-text-secondary: 220deg 3% 55%;
+		--theme-accent: 160deg 64% 46%;
 		--theme-accent-2: 0deg 0% 93%;
-		--theme-quote: 102deg 100% 86%;
+		--theme-quote: 160deg 64% 46%;
+		--theme-muted: 220deg 6% 15%;
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	/* ─── Reveal animations ─── */
+	.reveal {
+		opacity: 0;
+		transform: translateY(24px);
+		transition:
+			opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+			transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	.reveal.revealed {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	.reveal-1 {
+		transition-delay: 0.05s;
+	}
+	.reveal-2 {
+		transition-delay: 0.1s;
+	}
+	.reveal-3 {
+		transition-delay: 0.15s;
+	}
+	.reveal-4 {
+		transition-delay: 0.2s;
+	}
+	.reveal-5 {
+		transition-delay: 0.25s;
+	}
+	.reveal-6 {
+		transition-delay: 0.3s;
+	}
+
+	/* ─── Glass effect ─── */
+	.glass {
+		background: hsl(var(--theme-surface) / 0.6);
+		backdrop-filter: blur(20px) saturate(180%);
+		-webkit-backdrop-filter: blur(20px) saturate(180%);
+		border: 1px solid hsl(var(--theme-border) / 0.6);
+	}
+	.glass-strong {
+		background: hsl(var(--theme-surface) / 0.85);
+		backdrop-filter: blur(24px) saturate(180%);
+		-webkit-backdrop-filter: blur(24px) saturate(180%);
+		border: 1px solid hsl(var(--theme-border) / 0.7);
+	}
+
+	/* ─── Card double-bezel ─── */
+	.card-outer {
+		background: hsl(var(--theme-muted));
+		padding: 1.5px;
+		border-radius: 1rem;
+		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	.card-outer:hover {
+		background: hsl(var(--theme-accent) / 0.2);
+	}
+	.card-inner {
+		background: hsl(var(--theme-surface));
+		border-radius: calc(1rem - 1.5px);
+		padding: 1.5rem;
+	}
+	:root[data-theme="dark"] .card-inner {
+		background: hsl(var(--theme-bg));
+	}
+
+	/* ─── Typography ─── */
+	.eyebrow {
+		font-size: 0.6875rem;
+		font-weight: 500;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: hsl(var(--theme-text-secondary));
+		font-family: "Geist Mono", ui-monospace, monospace;
 	}
 }

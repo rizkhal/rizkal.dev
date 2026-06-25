@@ -18,7 +18,7 @@
 				type: "set-theme",
 				theme,
 			};
-			const iframe = document.querySelector(".utterances-frame") as HTMLIFrameElement; // omit as HTMLIFrameElement if you're wring JS
+			const iframe = document.querySelector(".utterances-frame") as HTMLIFrameElement; // omit as HTMLIFrameElement if you're writing JS
 			iframe?.contentWindow?.postMessage(message, "https://utteranc.es");
 		}
 	}

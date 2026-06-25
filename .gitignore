@@ -25,3 +25,4 @@ pnpm-debug.log*
 *.pem
 .cache
 .astro
+bun.lockb

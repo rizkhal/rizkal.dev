@@ -1,10 +1,10 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { render, type CollectionEntry } from "astro:content";
 
 import BaseLayout from "./Base.astro";
 import TOC from "@/components/blog/TOC.astro";
 import BlogHero from "@/components/blog/Hero.astro";
-import WebMentions from "@/components/blog/webmentions/index.astro";
+import Comment from "@/components/Comment.astro";
 
 interface Props {
 	post: CollectionEntry<"post">;
@@ -13,11 +13,12 @@ interface Props {
 const { post } = Astro.props;
 const {
 	data: { title, description, ogImage, publishDate, updatedDate },
-	slug,
+	id,
 } = post;
+const slug = id.replace(/\/index$/, "");
 const socialImage = ogImage ?? `/og-image/${slug}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
-const { headings } = await post.render();
+const headings: Array<import("astro").MarkdownHeading> = (await render(post)).headings;
 ---
 
 <script>
@@ -26,7 +27,6 @@ const { headings } = await post.render();
 
 	function callback(entries: IntersectionObserverEntry[]) {
 		entries.forEach((entry) => {
-			// only show the scroll to top button when the heading is out of view
 			scrollBtn.dataset.show = (!entry.isIntersecting).toString();
 		});
 	}
@@ -42,22 +42,25 @@ const { headings } = await post.render();
 <BaseLayout meta={{ title, description, articleDate, ogImage: socialImage }}>
 	<div class="gap-x-10 lg:flex lg:items-start">
 		{!!headings.length && <TOC headings={headings} />}
-		<article class="flex-grow break-words" data-pagefind-body>
+		<article class="min-w-0 flex-1 break-words" data-pagefind-body>
 			<div id="blog-hero"><BlogHero content={post} /></div>
 			<div
-				class="prose prose-sm prose-cactus mt-12 prose-headings:font-semibold prose-headings:text-accent-2 prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-accent prose-headings:before:content-['#'] prose-th:before:content-none"
+				class="prose prose-sm prose-cactus mt-12 max-w-none prose-headings:font-semibold prose-headings:text-accent-2 prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-code:rounded-md prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:text-sm prose-code:font-normal prose-pre:border prose-pre:border-borderColor prose-blockquote:border-l-2 prose-blockquote:border-accent prose-blockquote:pl-4 prose-blockquote:text-textSecondary prose-blockquote:not-italic"
 			>
 				<slot />
-				<WebMentions />
+				<Comment />
 			</div>
 		</article>
 	</div>
+
+	{/* Back to Top */}
 	<button
 		id="to-top-btn"
-		class="z-90 fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl opacity-0 transition-all duration-300 hover:border-zinc-400 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 dark:bg-zinc-700 sm:end-8 sm:h-12 sm:w-12"
+		class="fixed bottom-8 end-4 z-30 flex h-10 w-10 translate-y-28 items-center justify-center rounded-full border border-borderColor bg-surface text-textSecondary opacity-0 shadow-lg transition-all duration-300 hover:border-accent/30 hover:text-accent data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12"
 		aria-label="Back to Top"
 		data-show="false"
-		><svg
+	>
+		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			aria-hidden="true"
 			focusable="false"
@@ -65,7 +68,7 @@ const { headings } = await post.render();
 			viewBox="0 0 24 24"
 			stroke-width="2"
 			stroke="currentColor"
-			class="h-6 w-6"
+			class="h-5 w-5"
 		>
 			<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
 		</svg>

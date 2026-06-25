@@ -43,13 +43,17 @@ export default {
 				accent: "hsl(var(--theme-accent) / <alpha-value>)",
 				"accent-2": "hsl(var(--theme-accent-2) / <alpha-value>)",
 				bgColor: "hsl(var(--theme-bg) / <alpha-value>)",
+				surface: "hsl(var(--theme-surface) / <alpha-value>)",
+				borderColor: "hsl(var(--theme-border) / <alpha-value>)",
 				link: "hsl(var(--theme-link) / <alpha-value>)",
 				quote: "hsl(var(--theme-quote) / <alpha-value>)",
 				textColor: "hsl(var(--theme-text) / <alpha-value>)",
+				textSecondary: "hsl(var(--theme-text-secondary) / <alpha-value>)",
+				muted: "hsl(var(--theme-muted) / <alpha-value>)",
 			},
 			fontFamily: {
-				// Add any custom fonts here
-				sans: [...fontFamily.sans],
+				sans: ['"Geist"', ...fontFamily.sans],
+				mono: ['"Geist Mono"', ...fontFamily.mono],
 				serif: [...fontFamily.serif],
 			},
 			transitionProperty: {

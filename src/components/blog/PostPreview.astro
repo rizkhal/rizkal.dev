@@ -1,21 +1,58 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import type { HTMLTag, Polymorphic } from "astro/types";
 import FormattedDate from "../FormattedDate.astro";
 
-type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
+type Props = {
 	post: CollectionEntry<"post">;
-	withDesc?: boolean;
+	featured?: boolean;
 };
 
-const { post, as: Tag = "div", withDesc = false } = Astro.props;
+const { post, featured = false } = Astro.props;
 const postDate = post.data.updatedDate ?? post.data.publishDate;
+const tags = post.data.tags ?? [];
 ---
 
-<FormattedDate date={postDate} class="min-w-[120px] text-gray-500" />
-<Tag>
-	<a href={`/posts/${post.slug}/`} class="cactus-link" rel="prefetch">
-		{post.data.title}
+<article class="card-outer group h-full">
+	<a href={`/posts/${post.id.replace(/\/index$/, "")}/`} class="card-inner block h-full" rel="prefetch">
+		<div class="flex h-full flex-col">
+			{/* Date & Tags */}
+			<div class="mb-3 flex items-center gap-2">
+				<FormattedDate date={postDate} class="eyebrow" />
+				{tags.length > 0 && (
+					<span class="hidden rounded-full bg-accent/10 px-2 py-0.5 text-[0.625rem] font-medium text-accent sm:inline-block">
+						{tags[0]}
+					</span>
+				)}
+			</div>
+
+			{/* Title */}
+			<h3
+				class={`font-semibold leading-snug tracking-tight text-accent-2 transition-colors group-hover:text-accent ${featured ? "text-xl" : "text-base"}`}
+			>
+				{post.data.title}
+			</h3>
+
+			{/* Description */}
+			<p
+				class={`mt-2 text-textSecondary ${featured ? "text-sm" : "text-xs"}`}
+			>
+				{post.data.description}
+			</p>
+
+			{/* Spacer + Read more */}
+			<div class="mt-auto flex items-center gap-1 pt-4">
+				<span class="text-xs font-medium text-accent">Read more</span>
+				<svg
+					class="h-3 w-3 text-accent transition-transform group-hover:translate-x-1"
+					aria-hidden="true"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+				</svg>
+			</div>
+		</div>
 	</a>
-</Tag>
-{withDesc && <q class="line-clamp-3 block italic">{post.data.description}</q>}
+</article>

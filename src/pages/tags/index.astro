@@ -12,24 +12,29 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-6">Tags</h1>
-	<ul class="space-y-4">
+	<div class="mb-8 reveal">
+		<h1 class="text-3xl font-bold tracking-tight text-accent-2">Tags</h1>
+		<p class="mt-2 text-textSecondary">{allTags.length} tag{allTags.length !== 1 ? "s" : ""}</p>
+	</div>
+
+	<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 		{
-			allTags.map(([tag, val]) => (
-				<li class="flex items-center gap-x-2">
-					<a
-						class="cactus-link inline-block"
-						href={`/tags/${tag}/`}
-						title={`View posts with the tag: ${tag}`}
-						rel="prefetch"
-					>
-						&#35;{tag}
-					</a>
-					<span class="inline-block">
-						- {val} Post{val > 1 && "s"}
-					</span>
-				</li>
+			allTags.map(([tag, val], i) => (
+				<a
+					href={`/tags/${tag}/`}
+					class={`card-outer group reveal reveal-${Math.min(i + 1, 6)}`}
+					rel="prefetch"
+				>
+					<div class="card-inner flex items-center justify-between">
+						<span class="font-medium text-accent-2 transition-colors group-hover:text-accent">
+							#{tag}
+						</span>
+						<span class="rounded-full bg-muted px-2.5 py-0.5 text-xs text-textSecondary">
+							{val}
+						</span>
+					</div>
+				</a>
 			))
 		}
-	</ul>
+	</div>
 </PageLayout>

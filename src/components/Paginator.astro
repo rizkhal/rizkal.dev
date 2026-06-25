@@ -11,15 +11,23 @@ const { prevUrl, nextUrl } = Astro.props;
 
 {
 	(prevUrl || nextUrl) && (
-		<nav class="mt-8 flex items-center gap-x-4">
+		<nav class="mt-10 flex items-center justify-between gap-x-4">
 			{prevUrl && (
-				<a class="me-auto py-2 sm:hover:text-accent" href={prevUrl.url} rel="prefetch">
+				<a
+					class="card-outer inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-textSecondary transition-colors hover:text-accent"
+					href={prevUrl.url}
+					rel="prefetch"
+				>
 					{prevUrl.srLabel && <span class="sr-only">{prevUrl.srLabel}</span>}
 					{prevUrl.text ? prevUrl.text : "Previous"}
 				</a>
 			)}
 			{nextUrl && (
-				<a class="ms-auto py-2 sm:hover:text-accent" href={nextUrl.url} rel="prefetch">
+				<a
+					class="card-outer ms-auto inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-textSecondary transition-colors hover:text-accent"
+					href={nextUrl.url}
+					rel="prefetch"
+				>
 					{nextUrl.srLabel && <span class="sr-only">{nextUrl.srLabel}</span>}
 					{nextUrl.text ? nextUrl.text : "Next"}
 				</a>

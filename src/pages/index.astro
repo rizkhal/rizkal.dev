@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import PageLayout from "@/layouts/Base.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
 import SocialList from "@/components/SocialList.astro";
@@ -8,30 +7,96 @@ import { getAllPosts, sortMDByDate } from "@/data/post";
 const MAX_POSTS = 10;
 const allPosts = await getAllPosts();
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
+const featuredPost = allPostsByDate[0];
+const remainingPosts = allPostsByDate.slice(1);
 ---
 
 <PageLayout meta={{ title: "Home" }}>
-	<section class="flex flex-col items-center md:flex-row-reverse">
-		<div class="flex-1">
-			<h1 class="title mb-4">Halo ✋</h1>
-			<p class="mb-4 leading-8">
-				Saya Rizkal Lamaau. Saya seorang Generalis yang bekerja dengan Bahasa Pemrograman PHP &
-				Javascript dengan Framework Populer seperti Laravel dan NodeJS untuk Backend. React, Vue dan
-				Tailwind untuk Frontend.
+	{/* Hero Section */}
+	<section class="mb-20 grid items-center gap-16 md:grid-cols-[1.1fr_0.9fr]">
+		<div class="reveal">
+			<p class="eyebrow mb-4">Full-Stack Developer</p>
+			<h1 class="text-4xl font-bold leading-tight tracking-tight text-accent-2 sm:text-5xl">
+				Halo <span class="inline-block" style="animation: wave 2.5s infinite; transform-origin: 70% 70%;">&#x1F91A;</span>
+			</h1>
+			<p class="mt-4 max-w-md text-base leading-relaxed text-textSecondary">
+				Saya Rizkal Lamaau - seorang generalis yang bekerja dengan PHP &amp; Javascript.
+				Laravel, NodeJS, React, Vue, dan Tailwind adalah daily driver saya.
 			</p>
-			<SocialList />
+			<div class="mt-6">
+				<SocialList />
+			</div>
+		</div>
+
+		{/* Terminal / Avatar visual */}
+		<div class="reveal reveal-2 hidden justify-self-end md:block">
+			<div class="card-outer scale-110 origin-right">
+				<div class="card-inner bg-muted p-0 dark:bg-surface">
+					<div class="flex items-center gap-1.5 border-b border-borderColor px-5 py-3">
+						<span class="h-3 w-3 rounded-full bg-red-400"></span>
+						<span class="h-3 w-3 rounded-full bg-yellow-400"></span>
+						<span class="h-3 w-3 rounded-full bg-emerald-400"></span>
+						<span class="ms-2 font-mono text-xs text-textSecondary">terminal ~ zsh</span>
+					</div>
+					<div class="p-5 font-mono text-sm leading-relaxed">
+						<p><span class="text-emerald-400">&#x276F;</span> <span class="text-accent">whoami</span></p>
+						<p class="mt-1.5 text-textSecondary">rizkal-lamaau</p>
+						<p class="mt-3"><span class="text-emerald-400">&#x276F;</span> <span class="text-accent">stack</span></p>
+						<p class="mt-1.5 text-textSecondary">
+							PHP / Laravel &bull; NodeJS<br />
+							React &bull; Vue &bull; Tailwind
+						</p>
+						<p class="mt-3">
+							<span class="text-emerald-400">&#x276F;</span>
+							<span class="animate-pulse text-accent">_</span>
+						</p>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
-	<section aria-label="Blog post list" class="mt-16">
-		<h2 class="title mb-4 text-xl">Posts</h2>
-		<ul class="space-y-4">
+
+	{/* Featured Post */}
+	{featuredPost && (
+		<section class="mb-16">
+			<p class="eyebrow mb-4">Featured Post</p>
+			<PostPreview post={featuredPost} featured />
+		</section>
+	)}
+
+	{/* Blog Post Grid */}
+	<section aria-label="Blog post list">
+		<div class="mb-6 flex items-center justify-between">
+			<p class="eyebrow">Latest Posts</p>
+			<a
+				href="/posts/"
+				class="text-sm font-medium text-textSecondary transition-colors hover:text-accent"
+				rel="prefetch"
+			>
+				View all &rarr;
+			</a>
+		</div>
+
+		<div class="grid gap-5 sm:grid-cols-2">
 			{
-				allPostsByDate.map((p) => (
-					<li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+				remainingPosts.map((p, i) => (
+					<div class={`reveal reveal-${Math.min(i + 1, 6)}`}>
 						<PostPreview post={p} />
-					</li>
+					</div>
 				))
 			}
-		</ul>
+		</div>
 	</section>
+
+	<style>
+		@keyframes wave {
+			0%, 100% { transform: rotate(0deg); }
+			10% { transform: rotate(14deg); }
+			20% { transform: rotate(-8deg); }
+			30% { transform: rotate(14deg); }
+			40% { transform: rotate(-4deg); }
+			50% { transform: rotate(10deg); }
+			60% { transform: rotate(0deg); }
+		}
+	</style>
 </PageLayout>

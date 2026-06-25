@@ -1,23 +1,32 @@
 ---
-import { Image } from "astro:assets";
-
 import PageLayout from "@/layouts/Base.astro";
-import aboutImg from "@/assets/about-astro.png";
 
 const meta = {
-	title: "Oops! You found a missing page!",
+	title: "404 - Page Not Found",
 	description: "Oops! It looks like this page is lost in space!",
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-6">404 | Halaman tidak ditemukan</h1>
-	<p class="mb-8">Gunakan navigasi dan kembali ke halaman utama</p>
-	<div class="my-4 grid justify-center">
-		<Image
-			src={aboutImg}
-			alt="A cartoon cactus looking at the 'Astro.build' logo"
-			loading="eager"
-		/>
-	</div>
+	<section class="flex min-h-[50dvh] flex-col items-center justify-center text-center reveal">
+		<div class="card-outer mb-8 inline-block">
+			<div class="card-inner px-8 py-6">
+				<p class="font-mono text-6xl font-bold text-accent">404</p>
+			</div>
+		</div>
+		<h1 class="text-2xl font-bold text-accent-2">Halaman tidak ditemukan</h1>
+		<p class="mt-2 text-textSecondary">
+			Gunakan navigasi untuk kembali ke halaman utama.
+		</p>
+		<a
+			href="/"
+			class="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-accent/90"
+			rel="prefetch"
+		>
+			<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+			</svg>
+			Back to Home
+		</a>
+	</section>
 </PageLayout>

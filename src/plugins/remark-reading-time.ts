@@ -1,11 +1,14 @@
 import { toString as mdastToString } from "mdast-util-to-string";
 import getReadingTime from "reading-time";
+import type { Root } from "mdast";
+import type { VFile } from "vfile";
 
 export function remarkReadingTime() {
-	// @ts-expect-error:next-line
-	return (tree, { data }) => {
+	return (tree: Root, file: VFile) => {
 		const textOnPage = mdastToString(tree);
 		const readingTime = getReadingTime(textOnPage);
-		data.astro.frontmatter.minutesRead = readingTime.text;
+		const astro = file.data.astro ?? (file.data.astro = {} as Record<string, any>);
+		const frontmatter = astro.frontmatter ?? (astro.frontmatter = {} as Record<string, any>);
+		frontmatter.minutesRead = readingTime.text;
 	};
 }
